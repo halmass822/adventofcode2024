@@ -1,7 +1,7 @@
 const fs = require("fs");
 const readline = require("readline");
 
-const filepath = "./3eg.txt";
+const filepath = "./3.txt";
 const rl = readline.createInterface({
     input: fs.createReadStream(filepath),
     crlfDelay: Infinity
@@ -16,12 +16,29 @@ function parseInput(input) {
 
 function parseInput2(input) {
     const commands = input.match( /(mul\(\d+,\d+\))|(do\(\))|(don't\(\))/g );
-    console.log(commands);
     let counter = 0;
     let doInstruction = true;
     for(let i in commands) {
         const command = commands[i];
+        if(command === "do()") {
+            doInstruction = true;
+            console.log("commands enabled");
+        } else if(command === "don't()") {
+            doInstruction = false
+            console.log("commands disabled");
+        } else {
+            if(doInstruction) {
+                counter += ( Number(command.match(/\d+/g)[0]) * Number(command.match(/\d+/g)[1]) );
+                console.log(command, "enabled");
+            } else {
+                console.log(command, " disabled");
+            }
+        }
+        command === "do()" ? doInstruction = true :
+        command === "don't()" ? doInstruction = false :
+        doInstruction ? counter += ( Number(command.match(/\d+/g)[0]) * Number(command.match(/\d+/g)[1]) ) : console.log(command, " disabled");
     }
+    return counter;
 }
 
 let counter = 0;
