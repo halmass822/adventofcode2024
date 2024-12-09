@@ -27,33 +27,49 @@ function generateStringsFromVertical(inputArray) {
 }
 
 function generateStringsFromDiagonal(inputArray) {
-    //first index will be 3, ends at array width - 4
-    //vertical index will -- until 0, horizontal index will ++ until it equals starting vertical index
-    let outputArray = [];
+    // //first index will be 3, ends at array width - 4
+    // //vertical index will -- until 0, horizontal index will ++ until it equals starting vertical index
+    // let outputArray = [];
+    // const arrayHeight = inputArray.length;
+    // const arrayWidth = inputArray[0].length;
+
+    // //bottom left to top right step 1
+    // for(let i = arrayHeight - 1; i >= 3; i--) {
+    //     let generatedString = "";
+    //     for(let j = 0; j <= i; j++) {
+    //         generatedString += inputArray[i - j].substring(j,j + 1);
+    //     }
+    //     outputArray.push(generatedString);
+    // };
+
+    // //step 2
+    // for(let i = 1; i <= arrayWidth - 4; i++) {
+    //     let generatedString = "";
+    //     for(let j = 0; j <= arrayHeight - i; j++) {
+    //         generatedString += inputArray[arrayHeight - 1 - j].substring(i + j, i + j + 1);
+    //     }
+    //     outputArray.push(generatedString);
+    // };
+
+    // console.log(outputArray);
+
     const arrayHeight = inputArray.length;
     const arrayWidth = inputArray[0].length;
-
-    //bottom left to top right step 1
-    for(let i = arrayHeight - 1; i >= 3; i--) {
+    
+    for(let i = 0; i < arrayHeight; i++) {
         let generatedString = "";
-        for(let j = 0; j <= i; j++) {
-            generatedString += inputArray[i - j].substring(j,j + 1);
+        const iMax = Max(i, 10); //kicks in at the bottom of the matrix
+        const iOperand = i % 10; //increments each step below the matrix
+        for(let j = 0; j < iMax; j++) {
+            if(i > 10 && j === 0) j = iOperand; //reset 
+            generatedString += inputArray[i - j].substring(j, j + 1);
         }
-        outputArray.push(generatedString);
-    };
-
-    //step 2
-    for(let i = 1; i <= arrayWidth - 4; i++) {
-        let generatedString = "";
-        for(let j = 0; j <= arrayHeight - i; j++) {
-            generatedString += inputArray[arrayHeight - 1 - j].substring(i + j, i + j + 1);
-        }
-        outputArray.push(generatedString);
-    };
-
-    console.log(outputArray);
+        console.log(generatedString);
+    }
 
 } //9,1 8,2 8,3
+
+
 
 let counter = 0;
 let matrix = [];
