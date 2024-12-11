@@ -56,13 +56,16 @@ function generateStringsFromDiagonal(inputArray) {
     const arrayHeight = inputArray.length;
     const arrayWidth = inputArray[0].length;
     
-    for(let i = 0; i < arrayHeight; i++) {
+    //diagonal in the upwards-right direction
+
+    for(let i = 0; i < arrayHeight * 2 - 1; i++) {
         let generatedString = "";
-        const iMax = Max(i, 10); //kicks in at the bottom of the matrix
         const iOperand = i % 10; //increments each step below the matrix
-        for(let j = 0; j < iMax; j++) {
-            if(i > 10 && j === 0) j = iOperand; //reset 
+        for(let j = 0; j <= i && i < arrayHeight; j++) { // top left to bottom right
             generatedString += inputArray[i - j].substring(j, j + 1);
+        }
+        for(let j = 1; i >= arrayHeight && j + iOperand < arrayHeight; j++) { // bottom left to bottom right
+            generatedString += inputArray[arrayHeight - j].substring(j + iOperand,j + iOperand + 1);
         }
         console.log(generatedString);
     }
