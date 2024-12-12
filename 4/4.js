@@ -58,16 +58,23 @@ function generateStringsFromDiagonal(inputArray) {
     
     //diagonal in the upwards-right direction
 
-    for(let i = 0; i < arrayHeight * 2 - 1; i++) {
-        let generatedString = "";
+    for(let i = 0; i < arrayHeight; i++) {
+        let generatedString1 = ""; //for the upwards-right direction
+        let generatedString2 = ""; //for the upwards-left direction
         const iOperand = i % 10; //increments each step below the matrix
-        for(let j = 0; j <= i && i < arrayHeight; j++) { // top left to bottom right
-            generatedString += inputArray[i - j].substring(j, j + 1);
+        for(let j = 0; j <= i && i < arrayHeight; j++) {
+            console.log(i,j);
+            generatedString1 += inputArray[i - j].substring(j, j + 1);
+            // console.log(inputArray[arrayHeight - 1 - j]);
+            console.log(inputArray[arrayHeight - 1 - j].substring(arrayWidth - 1 - j, arrayWidth - j))
+            // generatedString2 += inputArray[arrayHeight - 1 - i - j].substring(arrayWidth - 1 - j, arrayWidth - j);
         }
-        for(let j = 1; i >= arrayHeight && j + iOperand < arrayHeight; j++) { // bottom left to bottom right
-            generatedString += inputArray[arrayHeight - j].substring(j + iOperand,j + iOperand + 1);
-        }
-        console.log(generatedString);
+        // for(let j = 1; i >= arrayHeight && j + iOperand < arrayHeight; j++) { // bottom left to bottom right
+        //     generatedString1 += inputArray[arrayHeight - j].substring(j + iOperand,j + iOperand + 1);
+        // }
+        // console.log("hmm", generatedString1);
+        // console.log("hmmmm",generatedString2);
+
     }
 
 } //9,1 8,2 8,3
