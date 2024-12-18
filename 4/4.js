@@ -26,56 +26,30 @@ function generateStringsFromVertical(inputArray) {
     return outputArray;
 }
 
-function generateStringsFromDiagonal(inputArray) {
-    // //first index will be 3, ends at array width - 4
-    // //vertical index will -- until 0, horizontal index will ++ until it equals starting vertical index
-    // let outputArray = [];
-    // const arrayHeight = inputArray.length;
-    // const arrayWidth = inputArray[0].length;
-
-    // //bottom left to top right step 1
-    // for(let i = arrayHeight - 1; i >= 3; i--) {
-    //     let generatedString = "";
-    //     for(let j = 0; j <= i; j++) {
-    //         generatedString += inputArray[i - j].substring(j,j + 1);
-    //     }
-    //     outputArray.push(generatedString);
-    // };
-
-    // //step 2
-    // for(let i = 1; i <= arrayWidth - 4; i++) {
-    //     let generatedString = "";
-    //     for(let j = 0; j <= arrayHeight - i; j++) {
-    //         generatedString += inputArray[arrayHeight - 1 - j].substring(i + j, i + j + 1);
-    //     }
-    //     outputArray.push(generatedString);
-    // };
-
-    // console.log(outputArray);
+function countXmasDiagonal(inputArray) {
 
     const arrayHeight = inputArray.length;
     const arrayWidth = inputArray[0].length;
-    
-    //diagonal in the upwards-right direction
 
-    for(let i = 0; i < arrayHeight; i++) {
-        let generatedString1 = ""; //for the upwards-right direction
-        let generatedString2 = ""; //for the upwards-left direction
-        const iOperand = i % 10; //increments each step below the matrix
-        for(let j = 0; j <= i && i < arrayHeight; j++) {
-            console.log(i,j);
-            generatedString1 += inputArray[i - j].substring(j, j + 1);
-            // console.log(inputArray[arrayHeight - 1 - j]);
-            console.log(inputArray[arrayHeight - 1 - j].substring(arrayWidth - 1 - j, arrayWidth - j))
-            // generatedString2 += inputArray[arrayHeight - 1 - i - j].substring(arrayWidth - 1 - j, arrayWidth - j);
+    let counter = 0;
+
+    for(let i = 0; i < arrayHeight; i++) { //loop will analyze starting at each corner
+        let generatedStrings = ["", "", "", ""]; //one string for each corner
+        for(let j = 0; j <= i; j++) {
+            generatedStrings[0] += inputArray[i - j].substring(j, j + 1); //topleft corner
+            generatedStrings[1] += inputArray[i - j].substring(arrayWidth - 1 - j, arrayWidth - j); //topright corner
+            if(i !== 9) { //ignores the duplicates generated at the end
+                generatedStrings[2] += inputArray[arrayHeight - 1 - i + j].substring(j, j + 1); //bottom left corner
+                generatedStrings[3] += inputArray[arrayHeight - 1 - i + j].substring(arrayWidth - 1 - j, arrayWidth - j); //bottom right corner
+            }
         }
-        // for(let j = 1; i >= arrayHeight && j + iOperand < arrayHeight; j++) { // bottom left to bottom right
-        //     generatedString1 += inputArray[arrayHeight - j].substring(j + iOperand,j + iOperand + 1);
-        // }
-        // console.log("hmm", generatedString1);
-        // console.log("hmmmm",generatedString2);
 
+        for(let i in generatedStrings) {
+            counter += countXmas(generatedStrings[i]);
+        }
     }
+
+    return counter;
 
 } //9,1 8,2 8,3
 
@@ -90,8 +64,10 @@ rl.on('line', (line) => {
 
 rl.on('close', () => {
     const verticalStrings = generateStringsFromVertical(matrix);
-    const diagonalStrings = generateStringsFromDiagonal(matrix);
+    counter += countXmasDiagonal(matrix);
     for(let i = 0; i < verticalStrings.length; i++) {
         counter += countXmas(verticalStrings[i]);
     };
+
+    console.log(counter);
 })
