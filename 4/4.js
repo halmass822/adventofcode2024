@@ -12,18 +12,18 @@ function countXmas(input) {
     return [...input.matchAll(xmasRegex)].map(x => x.input.substring(x.index, x.index + 4)).length;
 };
 
-function generateStringsFromVertical(inputArray) {
-    let outputArray = [];
+function countXmasVertical(inputArray) {
     let arrayHeight = inputArray.length;
     let arrayWidth = inputArray[0].length;
+    let counter = 0;
     for(let i = 0; i < arrayWidth; i++) {
         let generatedString = "";
         for(let j = 0; j < arrayHeight; j++) {
             generatedString += inputArray[j].substring(i, i + 1);
         };
-        outputArray.push(generatedString);
+        counter += countXmas(generatedString);
     }
-    return outputArray;
+    return counter;
 }
 
 function countXmasDiagonal(inputArray) {
@@ -63,11 +63,8 @@ rl.on('line', (line) => {
 });
 
 rl.on('close', () => {
-    const verticalStrings = generateStringsFromVertical(matrix);
+    counter += countXmasVertical(matrix);
     counter += countXmasDiagonal(matrix);
-    for(let i = 0; i < verticalStrings.length; i++) {
-        counter += countXmas(verticalStrings[i]);
-    };
 
-    console.log(counter);
+    console.log("total", counter);
 })
