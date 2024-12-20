@@ -1,7 +1,7 @@
 const fs = require("fs");
 const readline = require("readline");
 
-const filepath = "./4eg.txt";
+const filepath = "./4.txt";
 const rl = readline.createInterface({
     input: fs.createReadStream(filepath),
     crlfDelay: Infinity
@@ -9,7 +9,9 @@ const rl = readline.createInterface({
 
 const xmasRegex = /(?=XMAS|SAMX)/g
 function countXmas(input) {
-    return [...input.matchAll(xmasRegex)].map(x => x.input.substring(x.index, x.index + 4)).length;
+    const result = [...input.matchAll(xmasRegex)].map(x => x.input.substring(x.index, x.index + 4)).length;
+    if(Math.random() > 0.95) console.log(input, result); //for randomly logging 5% of the results
+    return result;
 };
 
 function countXmasVertical(inputArray) {
@@ -51,12 +53,13 @@ function countXmasDiagonal(inputArray) {
 
     return counter;
 
-} //9,1 8,2 8,3
+}
 
 
 
 let counter = 0;
 let matrix = [];
+
 rl.on('line', (line) => {
     counter += countXmas(line);
     matrix.push(line);
