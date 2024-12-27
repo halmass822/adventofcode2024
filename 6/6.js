@@ -24,13 +24,14 @@ function getNewCoords(currentCoords, direction) {
     }
 };
 
-function checkIfCoordObstructed(matrix, coords) {
-    if(matrix[coords[1]].charAt(coords[0]) === "#") return true;
+function checkIfCoordObstructed(inputMatrix, coords) {
+    console.log(inputMatrix, coords);
+    if(inputMatrix[coords[1]].charAt(coords[0]) === "#") return true;
 };
 
 const directionsArray = ["W","S","E","N"] //to handle turning left
 
-function patrol(initialCoords, matrix) {
+function patrol(initialCoords, inputMatrix) {
     const matrixWidth = matrix[0].length;
     const matrixHeight = matrix.length;
     let currentCoords = initialCoords;
@@ -39,13 +40,20 @@ function patrol(initialCoords, matrix) {
     let visitedCoords = [];
 
     setTimeout(() => { //10 second timeout
+        console.log("loop timed out!");
         exit();
     }, 10000);
 
     do {
+        console.log(currentCoords, guardDirection);
         const newCoords = getNewCoords(currentCoords, guardDirection);
-        if(checkIfCoordObstructed(newCoords)) {
-            currentCoords = directionsArray[directionsArray.indexOf(guardDirection) - 1 % 4];
+        if(currentCoords[0] >= matrixHeight && currentCoords[1] >= matrixWidth) console.log("foo");
+        if(checkIfCoordObstructed(inputMatrix, newCoords)) {
+            guardDirection = directionsArray[directionsArray.indexOf(guardDirection) - 1 % 4];
+            console.log("obstruction at ", newCoords, "\nnew direction: ", guardDirection);
+        } else {
+            if(visitedCoords.find(x => x[0] === newCoords[0] && x[1] === newCoords[1])) visitedCoords.push(newCoords);
+            currentCoords = newCoords;
         }
         
     } while (currentCoords[0] < matrixHeight && currentCoords[1] < matrixWidth);
@@ -63,5 +71,5 @@ rl.on('line', (line) => {
 });
 
 rl.on('close', () => {
-    console.log(initialCoords, matrix);
+    patrol(initialCoords, matrix);
 })
